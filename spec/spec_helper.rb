@@ -1,5 +1,5 @@
 require "bundler/setup"
-require "activerecord/readonly_statement"
+require "active_record/readonly_statement"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
