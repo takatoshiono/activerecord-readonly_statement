@@ -17,15 +17,15 @@ module ActiveRecord
     end
 
     def self.enable!
-      @@enabled = true
+      Thread.current['activerecord-readonly_statement-enabled'] = true
     end
 
     def self.disable!
-      @@enabled = false
+      Thread.current['activerecord-readonly_statement-enabled'] = false
     end
 
     def self.enable?
-      @@enabled
+      Thread.current['activerecord-readonly_statement-enabled']
     end
   end
 end
