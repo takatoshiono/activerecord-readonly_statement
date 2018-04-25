@@ -1,6 +1,8 @@
-# Activerecord::ReadonlyStatement
+# ActiveRecord::ReadonlyStatement
 
-Check database statements and raise ActiveRecord::ReadonlyStatementError if any statements are non read.
+This gem provides a rack middleware ActiveRecord::ReadonlyStatement::Middleware to check database statements and raise ActiveRecord::ReadonlyStatementError if any statements are non read.
+
+The middleware decides whether to enable checking by executing a code block in each request.
 
 ## Installation
 
