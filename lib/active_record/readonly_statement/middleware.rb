@@ -17,9 +17,12 @@ module ActiveRecord
 
       private
 
+      def config
+        @config ||= ActiveRecord::ReadonlyStatement.config
+      end
+
       def enable?(env)
-        c = ActiveRecord::ReadonlyStatement.config
-        c && c.enable_if_block.call(env)
+        config && config.enable_if_block.call(env)
       end
     end
   end
