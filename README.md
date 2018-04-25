@@ -1,8 +1,6 @@
 # Activerecord::ReadonlyStatement
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/activerecord/readonly_statement`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Check database statements and raise ActiveRecord::ReadonlyStatementError if any statements are non read.
 
 ## Installation
 
@@ -22,7 +20,41 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+config/application.rb:
+```ruby
+config.middleware.use ActiveRecord::ReadonlyStatement::Middleware
+```
+
+## Configuration
+
+```ruby
+ActiveRecord::ReadonlyStatement.configuration do |config|
+  # Set the adapter class
+  # TODO: config.adapter = :mysql2
+  config.adapter = ActiveRecord::ConnectionAdapters::Mysql2Adapter
+
+  # Determine which request is readonly
+  config.enable_if do |env|
+    env.fetch('REQUEST_METHOD') == 'GET'
+  end
+end
+```
+
+### Use in request testing
+
+For example, set to be enable if X-Check-Readonly request header exists.
+
+```ruby
+config.enable_if do |env|
+  env.fetch('X_CHECK_READONLY', nil).present?
+end
+```
+
+And in your test
+
+```ruby
+get '/v1/your/api', headers: { 'X-Check-Readonly' => 'on' }
+```
 
 ## Development
 
@@ -32,7 +64,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/activerecord-readonly_statement.
+Bug reports and pull requests are welcome on GitHub at https://github.com/takatoshiono/activerecord-readonly_statement.
 
 ## License
 
