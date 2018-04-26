@@ -1,5 +1,5 @@
 require "bundler/setup"
-require "active_record/readonly_statement"
+require "activerecord/readonly_statement"
 
 module ActiveRecord
   module ConnectionAdapters
