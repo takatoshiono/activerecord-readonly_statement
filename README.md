@@ -1,6 +1,6 @@
 # ActiveRecord::ReadonlyStatement
 
-This gem provides a rack middleware ActiveRecord::ReadonlyStatement::Middleware to check database statements and raise ActiveRecord::ReadonlyStatementError if any statements are non read.
+This gem provides a rack middleware `ActiveRecord::ReadonlyStatement::Middleware` to check database statements and raise `ActiveRecord::ReadonlyStatementError` if any statements are non read.
 
 The middleware decides whether to enable checking by executing a code block in each request.
 
@@ -22,9 +22,19 @@ Or install it yourself as:
 
 ## Usage
 
-config/application.rb:
+In Rails app,
+
+config/initializers/activerecord-readonly_statement.rb:
 ```ruby
-config.middleware.use ActiveRecord::ReadonlyStatement::Middleware
+Rails.application.config.middleware.use ActiveRecord::ReadonlyStatement::Middleware
+```
+
+In Rack app,
+
+config.ru:
+```ruby
+require 'activerecord/readonly_statement'
+use ActiveRecord::ReadonlyStatement::Middleware
 ```
 
 ## Configuration
@@ -48,7 +58,7 @@ For example, set to be enable if X-Check-Readonly request header exists.
 
 ```ruby
 config.enable_if do |env|
-  env.fetch('X_CHECK_READONLY', nil).present?
+  env.fetch('X-Check-Readonly', nil).present?
 end
 ```
 
